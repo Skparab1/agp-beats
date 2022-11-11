@@ -1,0 +1,230 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset='utf-8'>
+    <meta name='og:viewport' content='width=device-width,initial-scale=1'>
+    <meta name="og:description" content="AGP's Beats">
+    <meta property="og:image" content="https://skparab1.github.io/pacman/agpbeats/fl.jpg">
+    <title>AGP Beats</title>
+    <link rel="stylesheet" href="about.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link rel="icon" type="image/x-icon" href="https://skparab1.github.io/agpbeats/fl.jpg">
+  </head>
+  <body>
+    <div id="notif" style="width: 100%; height: 50px; padding: 0px; float: left; z-index: 2; background: rgb(199, 3, 3); display: none"></div>
+    <nav id="nav1">
+      <ul class="nav-items" id="nav">
+        <li><a id="fav" href="https://skparab1.github.io/agpbeats"><img src="fl.jpg" height="30px;"></a></li>
+        <li><a id='header1' class="header" href="https://discord.gg/uRSXtzHZsK" onmouseover="colorize('header1',3,119,252);" onmouseleave="decolorize('header1',3,119,252);">Agp's Kitchen</a></li>
+        <li><a id='header2' class="header" href="https://www.youtube.com/channel/UCmu60hsh1boJGJniaMEk5Wg" onmouseover="colorize('header2',255,0,0);" onmouseleave="decolorize('header2',255,0,0);">Youtube</a></li>
+      </ul> 
+    </nav>
+    <h1 id="title" style="z-index: -1"></h1>
+    
+    <script src="html-controller.js"></script>
+
+    <img id="bg1" src="bg.png" height="100%;" style="z-index: -1; position: fixed; top: 0px; left: 0px; opacity: 0;"></div>
+
+    <div id='hcontainer' class="fullwidth">
+      <h1 id='head' style="font-size: 50px; padding-bottom: 0px; height: 60px; font-family: akira-expanded;">AGP Beats</h1>
+      <h1 id='placeholder' style="font-size: 50px; padding-bottom: 0px; height: 100px; font-family: akira-expanded; color: rgba(0,0,0,0);">placeholder lmao</h1>
+      <div id='nowplaying' class='fullwidth' style="height: 123px; display: none; opacity: 0; position: fixed; left: 0px; background-image: linear-gradient(rgba(0,0,0,1),rgba(0,0,0,1),rgba(0,0,0,0));">
+        <div class="fullwidth" >
+          <div class="leftslim">
+            <img id='beatimg' src="fl.jpg" height="75">
+            <img id='playimg' src="play.png" height="75" style="opacity: 0;">
+            <img id='pauseimg' src="pause.png" height="75" style="opacity: 0;" onclick="playtoggle();" onmouseover="showplaypause();" onmouseleave="fadeplaypause();">
+          </div>
+          <div id='playnow' class='middleslim'>
+            <h1 id="nowplayingname" style="text-align: left; font-size: 20px; padding-left: 12%; white-space: nowrap;"></h1>
+            <div class="fullwidth" id="playtimeline" style="display: none;">
+              <div class="lefttime">
+                <h1 id="currenttime" class="times">0:45</h1>
+              </div>
+              <div class="timeline">
+                <div class="slidecontainer">
+                  <input type="range" min="0" max="100" value="50" class="slider" id="timekeeper">
+                </div>
+              </div>
+              <div class="lefttime">
+                <h1 id="totaltime" class="times">1:39</h1>
+              </div>
+            </div>
+          </div>
+          <div class="leftslimvolume" id="controlsbox" style="display: block; padding-bottom: 500px; text-align: left; display: none; z-index: 20; padding-left: 100px;">
+            <h1 id="mpa" style="text-align: left; font-size: 25px; padding-left: 12%;">Options</h1>
+
+            <select class="modeselect" id="mode" style=" text-align:center;" onchange="changedmode();">
+              <option value="playonce">Play Once</option>
+              <option value="repeat">Repeat</option>
+              <option value="playnext">Play Next</option>
+              <option value="random">Random</option>
+              <option value="randomx">RandomX</option>
+            </select>
+
+            <div id='controls' class='fullwidth' style="padding-bottom: 50px">
+              <div class="timelinevolume">
+                <div class="slidecontainervolume" style="padding-top: 0px;">
+                  <input type="range" min="1" max="100" value="100" class="slidervolume" onchange='changevolume();' id="volumer">
+                </div>
+              </div>
+              <div class="lefttime" style="float:left; text-align: left;">
+                <h1 id="volumedisp" class="times" style="width: 100%; line-height: 0px; padding-top: 7.5px; white-space: nowrap;">Vol: 100%</h1>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div id="placeholder"  style="font-size: 50px; padding-bottom: 0px; height: 123px; display:none"></div>
+      
+      <div id="headoverlay" style="position: absolute; width: 26%; height: 70%; background-image: linear-gradient(to right,rgb(0,0,0),rgb(0,0,0),rgb(0,0,0),rgb(0,0,0),rgb(0,0,0),rgb(0,0,0),rgb(0,0,0),rgba(0,0,0,0.5),rgba(50,50,50,0),rgba(50,50,50,0),rgba(0,0,0,0.5),rgb(0,0,0),rgb(0,0,0),rgb(0,0,0),rgb(0,0,0),rgb(0,0,0),rgb(0,0,0),rgb(0,0,0),rgb(0,0,0),rgb(0,0,0),rgb(0,0,0),rgb(0,0,0),rgb(0,0,0));"></div>
+
+      <div id="allbeats" style="opacity: 0;"></div>
+
+      <div id='plc' class="playlist-container" style="opacity: 0;">
+        <h1>Playlists</h1>
+        <div id="allplaylists">
+          <div class="playlist" onclick="openplaylist('showallbeats');">♫ All Beats</div>
+          <div class="playlist" onclick="openplaylist('favorites');">♫ Favorites</div>
+        </div>
+        <button class="smbutton" onclick="openplaylistmaker();"><h1 class="buttoncontent" >New Playlist</h1></button>
+        <div class="playlist"></div>
+      </div>
+
+      <div>
+        <div class="playlist" style='width: 10%;' onclick="openvault();"></div>
+      </div>
+
+      <div id="alloverlay" class="alloverlay"></div>
+    
+      <div id="playlistmaker" class="playlistmaker">
+        <h1 style='font-size: 30px; color: white'>New Playlist</h1>
+        <h1 style='font-size: 15px; color: white'>Playlist Name</h1>
+        <input type="text" id="listname" name="name" class="inputer">
+        <div class="playlist"></div>
+        <button class="smbutton" onclick="createlist();" style='width: 50%;'><h1 class="buttoncontent">Create</h1></button>
+        <div class="playlist"></div>
+        <button class="smbutton" onclick="closemaker();" style='width: 50%;'><h1 class="buttoncontent">Cancel</h1></button>
+        <div class="playlist"></div>
+      </div>
+
+      <div id="pwdask" class="playlistmaker">
+        <h1 style='font-size: 18px; color: white'>GG you found the enterance to the Bob Raja Vault!</h1>
+        <h1 style='font-size: 15px; color: white'>But enter the password</h1>
+        <input type="text" id="pwd" name="name" class="inputer">
+        <div class="playlist"></div>
+        <button class="smbutton" onclick="closedialogue('pwdask');" style='width: 50%;'><h1 class="buttoncontent">Nevermind, I give up</h1></button>
+        <div class="playlist"></div>
+      </div>
+
+      <div id="finder" class="playlistmaker" style="max-height: 70%; top: 15%; overflow-y:scroll; overflow-x: hidden;">
+        <h1 style='font-size: 30px; color: white'>Find beat</h1>
+        <h1 style='font-size: 15px; color: white'>what do u wanna find (start typing)</h1>
+        <h1 style='font-size: 20px; color: rgb(255, 122, 61)' id="query"></h1>
+        <div id="resultholder"></div>
+        <button class="smbutton" onclick="closefinder();" style='width: 50%;'><h1 class="buttoncontent">Close</h1></button>
+        <div class="playlist"></div>
+      </div>
+
+      <div id="plexporter" class="playlistmaker">
+        <h1 style='font-size: 30px; color: white'>Export Playlist</h1>
+        <h1 style='font-size: 15px; color: white'>Share, Copy, or Open this link to add this playlist!</h1>
+        <h1 style='font-size: 15px; color: white' id="shareurl"></h1>
+        <button class="smbutton" onclick="closeexporter();" style='width: 50%;'><h1 class="buttoncontent">Close</h1></button>
+        <div class="playlist"></div>
+      </div>
+
+      <div id="notif1" class="playlistmaker">
+        <h1 style='font-size: 30px; color: white'>Yo wait up</h1>
+        <img src="playbtnlmao.png" width="90%">
+        <h1 style='font-size: 15px; color: white'>This is where the play button is</h1>
+        <h1 style='font-size: 10px; color: white'>(srry, some people cudnt find it)</h1>
+        <button class="smbutton" onclick="localStorage.setItem('notif1','dont'); closedialogue('notif1');" style='width: 50%;'><h1 class="buttoncontent">Ok yeah ik</h1></button>
+        <div class="playlist"></div>
+        <button class="smbutton" onclick="closedialogue('notif1');" style='width: 70%;'><h1 class="buttoncontent">Fr? Remind me later pls</h1></button>
+        <div class="playlist"></div>
+      </div>
+
+      <div id="addplaylist" class="playlistmaker">
+        <h1 style='font-size: 30px; color: white'>Add Playlist</h1>
+        <h1 style='font-size: 15px; color: white' id="addornot"></h1>
+        <div class="playlist"></div>
+        <button id='doadd' class="smbutton" onclick="addplaylist();" style='width: 50%;'><h1 class="buttoncontent">Add</h1></button>
+        <div class="playlist"></div>
+        <button class="smbutton" onclick="closelistadder();" style='width: 50%;'><h1 class="buttoncontent">Cancel</h1></button>
+        <div class="playlist"></div>
+      </div>
+
+      <div id="stationhoster" class="playlistmaker">
+        <h1 style='font-size: 30px; color: white'>Host station</h1>
+        <h1 style='font-size: 15px; color: white' id="sessionmsg">Currently not hosting</h1>
+        <h1 style='font-size: 15px; color: white' id="sessionmsg">Station name</h1>
+        <input type="text" id="hoststationer" name="name" class="inputer">
+        <div class="playlist"></div>
+        <button id='session' class="smbutton" onclick="modstation();" style='width: 50%;'><h1 class="buttoncontent" id="sshost">Start hosting</h1></button>
+        <div class="playlist"></div>
+        <button class="smbutton" onclick="closedialogue('stationhoster');" style='width: 50%;'><h1 class="buttoncontent">Close</h1></button>
+        <div class="playlist"></div>
+      </div>
+
+      <div id="satelitemode" class="playlistmaker">
+        <h1 style='font-size: 30px; color: white'>Satelite mode</h1>
+        <h1 style='font-size: 15px; color: white' id="satelitemsg1">Note: Satelite mode will allow your device's audio to be controlled. Use at your own risk.</h1>
+        <h1 style='font-size: 15px; color: white' id="satelitemsg">Join a station</h1>
+        <input type="text" id="stationname" name="name" class="inputer">
+        <div class="playlist"></div>
+        <button id='session' class="smbutton" onclick="modsatelite();" style='width: 50%;'><h1 class="buttoncontent" id="shost">Join Station</h1></button>
+        <div class="playlist"></div>
+        <button class="smbutton" onclick="closedialogue('satelitemode'); terminatesatelite();" style='width: 50%;'><h1 class="buttoncontent">Close</h1></button>
+        <h1 style='font-size: 15px; color: white' id="eee">Closing this dialogue will terminate satelite mode</h1>
+        <div class="playlist"></div>
+      </div>
+
+      <div class="banner" id="hosting" style="background-color: rgb(0, 199, 0); opacity: 0; display: none;"><h1 class='bannertext' id="hostbanner">Currently hosting station</h1></div>
+      <div class="banner" id="sateliting" style="background-color: red; opacity: 0; display: none;"><h1 class='bannertext' id="satebanner">Connected to</h1></div>
+
+      <div id="syncer" class="playlistmaker">
+        <h1 style='font-size: 30px; color: white'>Syncing with other users...</h1>
+        <div class="playlist"></div>
+        <img src="loading.gif">
+        <div class="playlist"></div>
+      </div>
+
+      <div id="connector" class="playlistmaker">
+        <h1 style='font-size: 30px; color: white'>Connecting to station...</h1>
+        <div class="playlist"></div>
+        <img src="loading.gif">
+        <div class="playlist"></div>
+      </div>
+
+      <div id="plsettings" class="playlistmaker">
+        <h1 style='font-size: 30px; color: white'>Playlist Options</h1>
+        <button class="smbutton" onclick="deletepl();" style='width: 50%;'><h1 class="buttoncontent">Delete Playlist</h1></button>
+        <h1 style='font-size: 10px; color: white'>This action cannot be undone. your playlist to save it.</h1>
+        <div class="playlist"></div>
+        <h1 style='font-size: 18px; color: white'>Rename Playlist</h1>
+        <input type="text" id="plname" name="name" class="inputer">
+        <div class="playlist"></div>
+        <button class="smbutton" onclick="renamepl();" style='width: 50%;'><h1 class="buttoncontent">Rename</h1></button>
+        <div class="playlist"></div>
+        <button class="smbutton" onclick="closesettings();" style='width: 50%;'><h1 class="buttoncontent">Cancel</h1></button>
+        <div class="playlist"></div>
+      </div>
+
+      <div id="addbeat" class="addbeat">
+        <h1 style='font-size: 20px; color: white'>Add to Playlist</h1>
+        <div id="alloptions"></div>
+        <div class="playlist"></div>
+        <button class="smbutton" onclick="addtopl();" style='width: 50%;'><h1 class="buttoncontent">Add</h1></button>
+        <div class="playlist"></div>
+        <button class="smbutton" onclick="closeadder();" style='width: 50%;'><h1 class="buttoncontent">Cancel</h1></button>
+        <div class="playlist"></div>
+      </div>
+
+    </div>
+    <br>
+
+    <script src="index.js"></script>
+  </body>
+</html>
